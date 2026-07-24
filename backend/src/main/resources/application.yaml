@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: backend
+
+  datasource:
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
+    username: postgres.ieggvuguahcazravdxgk
+    password: Vasanthroobi@123
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
