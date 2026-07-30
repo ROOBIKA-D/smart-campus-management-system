@@ -6,19 +6,21 @@ import com.smartcampus.backend.entity.Admin;
 import com.smartcampus.backend.repository.AdminRepository;
 import org.springframework.stereotype.Service;
 import com.smartcampus.backend.dto.AdminDTO;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 @Service
 public class AdminServiceImpl implements AdminService {
 
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminServiceImpl(AdminRepository adminRepository) {
+    public AdminServiceImpl(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public AdminDTO saveAdmin(Admin admin) {
-
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         Admin savedAdmin = adminRepository.save(admin);
 
         return new AdminDTO(
