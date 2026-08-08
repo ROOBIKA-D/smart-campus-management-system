@@ -9,6 +9,10 @@ import com.smartcampus.backend.exception.ResourceNotFoundException;
 import com.smartcampus.backend.exception.DuplicateResourceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -44,12 +48,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentResponse> getAllStudents() {
+    public Page<StudentResponse> getAllStudents(
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
 
-        return studentRepository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return studentRepository.findAll(pageable)
+                .map(this::mapToResponse);
     }
 
     @Override

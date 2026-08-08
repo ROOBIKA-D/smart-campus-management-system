@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Page;
 import java.util.List;
 
 @RestController
@@ -33,18 +33,25 @@ public class StudentController {
                         .build());
     }
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<StudentResponse>>> getAllStudents() {
+     @GetMapping
+     public ResponseEntity<ApiResponse<Page<StudentResponse>>> getAllStudents(
 
-        List<StudentResponse> students = studentService.getAllStudents();
+              @RequestParam(defaultValue = "0") int page,
+              @RequestParam(defaultValue = "5") int size,
+              @RequestParam(defaultValue = "id") String sortBy,
+              @RequestParam(defaultValue = "asc") String direction) {
+
+        Page<StudentResponse> students =
+                studentService.getAllStudents(page, size, sortBy, direction);
 
         return ResponseEntity.ok(
-                ApiResponse.<List<StudentResponse>>builder()
+                ApiResponse.<Page<StudentResponse>>builder()
                         .success(true)
                         .message("Students retrieved successfully")
                         .data(students)
-                        .build());
-    }
+                        .build()
+        );
+     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<StudentResponse>> getStudentById(

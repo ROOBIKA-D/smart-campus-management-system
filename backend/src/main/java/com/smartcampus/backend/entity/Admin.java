@@ -15,6 +15,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+
+
 @Entity
 @Getter
 @Setter
@@ -36,4 +38,5 @@ public class Admin {
     @NotBlank(message = "Phone number cannot be empty")
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must contain exactly 10 digits")
     private String phone;
+    
 }

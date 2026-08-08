@@ -56,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
         if (existingAdmin != null) {
             existingAdmin.setName(admin.getName());
             existingAdmin.setEmail(admin.getEmail());
-            existingAdmin.setPassword(admin.getPassword());
+            existingAdmin.setPassword(passwordEncoder.encode(admin.getPassword()));
             existingAdmin.setPhone(admin.getPhone());
 
             return adminRepository.save(existingAdmin);
